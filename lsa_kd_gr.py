@@ -96,6 +96,9 @@ for folder in NGRAM_FOLDERS:
     terms_df = pd.read_csv(os.path.join(outputs_dir, "terms.csv"))
 
     # KD Tree --------------------------
+    # KD tree basically is a binary tree only 
+    # so each node has 2 children so what? 
+    # so each level
     TOP_K_DOCS = 10
     TOP_K_TERMS = 100
     SIM_THRESHOLD = 0.6 
