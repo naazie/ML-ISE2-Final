@@ -137,7 +137,6 @@ for folder in NGRAM_FOLDERS:
 
 # -------------------- 4. GRAPH ALGORITHMS --------------------
     def graph_algorithms(name, embeddings_path, labels_path, graph_dir, sim_threshold):
-        labels = pd.read_csv(labels_path).iloc[:, 0].astype(str).tolist()
         labels_df = pd.read_csv(labels_path)
 
         if 'Document_Name' in labels_df.columns:
@@ -156,7 +155,6 @@ for folder in NGRAM_FOLDERS:
         G = nx.Graph()
         G.add_nodes_from(labels)
 
-        # Only consider upper triangle to avoid duplicate edges
         row_idx, col_idx = np.where(np.triu(sim_matrix, k=1) >= sim_threshold)
         for i, j in zip(row_idx, col_idx):
             sim = sim_matrix[i, j]
@@ -166,7 +164,6 @@ for folder in NGRAM_FOLDERS:
 
         partition = community_louvain.best_partition(G)
         modularity = community_louvain.modularity(partition, G)
-        print(f"{name}, Modularity: {modularity}")
 
         community_assignments = pd.DataFrame(list(partition.items()), columns=['Label', 'Community'])
         community_assignments.to_csv(os.path.join(graph_dir,f"{name}_community_assignments.csv"), index=False)
@@ -191,12 +188,12 @@ for folder in NGRAM_FOLDERS:
 
         # Visualisation 
         community_colors = [partition[label] for label in G.nodes()]
-        plt.figure(figsize=(10, 8))
-        nx.draw_networkx(G, node_color=community_colors, with_labels=True, node_size=50, cmap = matplotlib.colormaps["tab20"])
-        plt.title(f"{name.title()} Communities with Labels")
-        plt.savefig(os.path.join(graph_dir, f"{name}_communities_with_labels.png"))
-        plt.show()
-        plt.close()
+        # plt.figure(figsize=(10, 8))
+        # nx.draw_networkx(G, node_color=community_colors, with_labels=True, node_size=50, cmap = matplotlib.colormaps["tab20"])
+        # plt.title(f"{name.title()} Communities with Labels")
+        # plt.savefig(os.path.join(graph_dir, f"{name}_communities_with_labels.png"))
+        # plt.show()
+        # plt.close()
         plt.figure(figsize=(10, 8))
         nx.draw_networkx(G, node_color=community_colors, with_labels=False, node_size=50, cmap = matplotlib.colormaps["tab20"])
         plt.title(f"{name.title()} Communities without Labels")
