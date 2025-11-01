@@ -98,7 +98,10 @@ for folder in NGRAM_FOLDERS:
     # KD Tree --------------------------
     # KD tree basically is a binary tree only 
     # so each node has 2 children so what? 
-    # so each level
+    # so at each level we go through 1 topic at a time and find a median then, split <median and > median
+    # then nearest neighbour so 
+    # it will have a pt 
+    # for that pt it will start from node and work it's way down choosing which subtree to choose acc to distanc ein our case - cosine distance 
     TOP_K_DOCS = 10
     TOP_K_TERMS = 100
     SIM_THRESHOLD = 0.6 
