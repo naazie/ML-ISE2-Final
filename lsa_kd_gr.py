@@ -163,7 +163,7 @@ for folder in NGRAM_FOLDERS:
         import community as community_louvain
 
         partition = community_louvain.best_partition(G)
-        modularity = community_louvain.modularity(partition, G)
+        # modularity = community_louvain.modularity(partition, G)
 
         community_assignments = pd.DataFrame(list(partition.items()), columns=['Label', 'Community'])
         community_assignments.to_csv(os.path.join(graph_dir,f"{name}_community_assignments.csv"), index=False)
@@ -210,17 +210,14 @@ for folder in NGRAM_FOLDERS:
         unique_communities = set(partition.values())
         color_map = {comm: '#%02X%02X%02X' % (random.randint(0,255), random.randint(0,255), random.randint(0,255)) for comm in unique_communities}
 
-        # Add nodes with community colors
         for node in G.nodes():
             comm = partition[node]
             label = str(node)
             net.add_node(node, label=label, color=color_map[comm])
 
-        # Add edges
         for u, v in G.edges():
             net.add_edge(u, v)
 
-        # Save as HTML file
         pyvis_path = os.path.join(graph_dir, f"{name}_communities_pyvis.html")
         # net.show(pyvis_path, notebook= False)
         net.write_html(pyvis_path)
